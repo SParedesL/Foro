@@ -78,6 +78,7 @@ public class Servidor {
                 f.mkdirs();
             }
             ObjectOutputStream oos= new ObjectOutputStream(new FileOutputStream(dir + "\\" + p.getTitulo()));
+            oos.writeObject(p);
             ois.close();
             oos.close();
         } catch (Exception e) {
@@ -124,9 +125,11 @@ public class Servidor {
     public void enviarPost(){
         try {
             String name = br.readLine();
-            System.out.println(name);
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(buscarPost(name, new File(".\\Posts"))));
+            File f = buscarPost(name, new File(".\\Posts\\"));
+            System.out.println("Ruta: " + f.getAbsoluteFile());
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
             Post p = (Post)ois.readObject();
+            System.out.println("Se recibió: " + p.getTitulo());
             ObjectOutputStream oos = new ObjectOutputStream(cl.getOutputStream());
             oos.writeObject(p);
             oos.flush();
@@ -138,20 +141,21 @@ public class Servidor {
     
     public File buscarPost(String name, File file){
         File[] list = file.listFiles();
-        if(list!=null)
+        File r = null;
+        if(list!=null){
+            System.out.println("No soy null");
             for (File fil : list)
             {
-                System.out.println(fil.getAbsolutePath());
                 if (fil.isDirectory())
                 {
-                    buscarPost(name, fil);
+                    r = buscarPost(name, fil);
                 }
                 else if (name.equalsIgnoreCase(fil.getName()))
                 {
-                    System.out.println(fil.getName());
                     return fil;
                 }
             }
-        return null;
+        }
+        return r;
     }
 }
