@@ -5,7 +5,11 @@
  */
 package metodos;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -50,5 +54,46 @@ public class Post implements Serializable{
         return contenido;
     }
     
+    public static File buscarPost(String name, File file){
+        File[] list = file.listFiles();
+        File r = null;
+        if(list!=null){
+            for (File fil : list)
+            {
+                if (fil.isDirectory())
+                {
+                    r = buscarPost(name, fil);
+                }
+                else if (name.equalsIgnoreCase(fil.getName()))
+                {
+                    return fil;
+                }
+            }
+        }
+        return r;
+    }
     
+    public static ArrayList<Post> generarLista(File file){
+        File[] list = file.listFiles();
+        ArrayList<Post> al = new ArrayList<>();
+        if(list!=null){
+            for (File fil : list)
+            {
+                if (fil.isDirectory())
+                {
+                    generarLista(fil);
+                }
+                else
+                {
+                    try {
+                        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fil));
+                        al.add((Post)ois.readObject());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return al;
+    }
 }

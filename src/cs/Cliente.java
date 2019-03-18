@@ -16,6 +16,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import metodos.Post;
@@ -122,5 +124,22 @@ public class Cliente {
             e.printStackTrace();
         }
         return p;
+    }
+    
+    public ArrayList<Post> listaPost(){
+        ArrayList<Post> alp = new ArrayList<>();
+        try {
+            cl = new Socket(host, pto);
+            br = new BufferedReader(new InputStreamReader(cl.getInputStream()));
+            pw = new PrintWriter(new OutputStreamWriter(cl.getOutputStream()));
+            pw.println("4");
+            pw.flush();
+            ObjectInputStream ois = new ObjectInputStream(cl.getInputStream());
+            alp = (ArrayList<Post>)ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return alp;
     }
 }

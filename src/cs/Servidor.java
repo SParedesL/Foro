@@ -5,7 +5,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -14,6 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import metodos.Post;
 
 /*
@@ -56,6 +59,8 @@ public class Servidor {
                     subirImagen();
                 else if(opc.equals("3"))
                     enviarPost();
+                else if(opc.equals("4"))
+                    enviarLista();
                 else
                     break;
                 
@@ -125,11 +130,9 @@ public class Servidor {
     public void enviarPost(){
         try {
             String name = br.readLine();
-            File f = buscarPost(name, new File(".\\Posts\\"));
-            System.out.println("Ruta: " + f.getAbsoluteFile());
+            File f = Post.buscarPost(name, new File(".\\Posts\\"));
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
             Post p = (Post)ois.readObject();
-            System.out.println("Se recibió: " + p.getTitulo());
             ObjectOutputStream oos = new ObjectOutputStream(cl.getOutputStream());
             oos.writeObject(p);
             oos.flush();
@@ -139,23 +142,15 @@ public class Servidor {
         }
     }
     
-    public File buscarPost(String name, File file){
-        File[] list = file.listFiles();
-        File r = null;
-        if(list!=null){
-            System.out.println("No soy null");
-            for (File fil : list)
-            {
-                if (fil.isDirectory())
-                {
-                    r = buscarPost(name, fil);
-                }
-                else if (name.equalsIgnoreCase(fil.getName()))
-                {
-                    return fil;
-                }
-            }
+    public void enviarLista(){
+        try {
+            ArrayList<Post> l = Post.generarLista(new File(".\\Posts\\"));
+            ObjectOutputStream oos = new ObjectOutputStream(cl.getOutputStream());
+            oos.writeObject(l);
+            oos.flush();
+            oos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return r;
     }
 }
