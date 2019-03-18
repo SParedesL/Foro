@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -109,7 +111,7 @@ public class Servidor {
                  dos.flush();
                  recibidos += n;
             }
-            System.out.println("Archivo" + nombre + " recibido");
+            System.out.println("Archivo " + nombre + " recibido");
             System.out.println("Esperando cliente...");
             dis.close();
             dos.close();
@@ -121,7 +123,10 @@ public class Servidor {
     
     public void enviarPost(){
         try {
-            
+            String name = br.readLine();
+            System.out.println(name);
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(buscarPost(name, new File(".\\Posts"))));
+            Post p = (Post)ois.readObject();
             ObjectOutputStream oos = new ObjectOutputStream(cl.getOutputStream());
             oos.writeObject(p);
             oos.flush();
@@ -131,19 +136,22 @@ public class Servidor {
         }
     }
     
-    public void buscarPost(String name, File file){
+    public File buscarPost(String name, File file){
         File[] list = file.listFiles();
         if(list!=null)
-        for (File fil : list)
-        {
-            if (fil.isDirectory())
+            for (File fil : list)
             {
-                buscarPost(name, file);
+                System.out.println(fil.getAbsolutePath());
+                if (fil.isDirectory())
+                {
+                    buscarPost(name, fil);
+                }
+                else if (name.equalsIgnoreCase(fil.getName()))
+                {
+                    System.out.println(fil.getName());
+                    return fil;
+                }
             }
-            else if (name.equalsIgnoreCase(fil.getName()))
-            {
-                System.out.println(fil.getParentFile());
-            }
-        }
+        return null;
     }
 }

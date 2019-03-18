@@ -16,9 +16,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import metodos.Post;
 
@@ -37,7 +35,8 @@ public class Cliente {
         Cliente c =  new Cliente();
         String imagen = c.enviarArch("14-03-19");
         c.nuevoPost("El sebas", "Ayuda", "14-03-19", imagen, "Que tranza?", "Viajes");
-        
+        Post p = c.pedirPost("Ayuda");
+        System.out.println(p.getTitulo());
     }
         
     public void nuevoPost(String creador, String titulo, String fecha, String foto, String contenido, String categoria){
@@ -113,6 +112,8 @@ public class Cliente {
             br = new BufferedReader(new InputStreamReader(cl.getInputStream()));
             pw = new PrintWriter(new OutputStreamWriter(cl.getOutputStream()));
             pw.println("3");
+            pw.flush();
+            pw.println(nombrePost);
             pw.flush();
             ObjectInputStream ois = new ObjectInputStream(cl.getInputStream());
             p = (Post)ois.readObject();
