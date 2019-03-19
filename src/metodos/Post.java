@@ -100,17 +100,78 @@ public class Post implements Serializable, Comparable<Post>{
     
     @Override
     public int compareTo(Post o) {
-        if (Integer.parseInt(fecha.substring(0, 1)) < Integer.parseInt(o.fecha.substring(0, 1))) {
-            if (Integer.parseInt(fecha.substring(3, 4)) < Integer.parseInt(o.fecha.substring(3, 4))) {
-                if (Integer.parseInt(fecha.substring(6, 7)) < Integer.parseInt(o.fecha.substring(6, 7))) {
+        if (Long.parseLong(fecha.substring(6, 10)) < Long.parseLong(o.fecha.substring(6, 10))) {
+            System.out.println("< Objeto " + titulo + ": Año " + fecha.substring(6, 10) + " Objeto " + o.titulo + ": Año " + o.fecha.substring(6, 10));
+            if (Integer.parseInt(fecha.substring(3, 5)) < Integer.parseInt(o.fecha.substring(3, 5))) {
+                System.out.println("< Objeto " + titulo + ": Mes " + fecha.substring(3, 5) + " Objeto " + o.titulo + ": Mes " + o.fecha.substring(3, 5));
+                if (Integer.parseInt(fecha.substring(0, 2)) < Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("< Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
+                    return 1;
+                }
+                if (Integer.parseInt(fecha.substring(0, 2)) > Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("> Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
+                    return -1;
+                }
+            }
+            if (Integer.parseInt(fecha.substring(3, 5)) > Integer.parseInt(o.fecha.substring(3, 5))) {
+                System.out.println("> Objeto " + titulo + ": Mes " + fecha.substring(3, 5) + " Objeto " + o.titulo + ": Mes " + o.fecha.substring(3, 5));
+                if (Integer.parseInt(fecha.substring(0, 2)) < Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("< Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
+                    return 1;
+                }
+                if (Integer.parseInt(fecha.substring(0, 2)) > Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("> Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
                     return -1;
                 }
             }
         }
-        if (Integer.parseInt(fecha.substring(0, 1)) > Integer.parseInt(o.fecha.substring(0, 1))) {
-            if (Integer.parseInt(fecha.substring(3, 4)) > Integer.parseInt(o.fecha.substring(3, 4))) {
-                if (Integer.parseInt(fecha.substring(6, 7)) > Integer.parseInt(o.fecha.substring(6, 7))) {
+        else if (Long.parseLong(fecha.substring(6, 10)) > Long.parseLong(o.fecha.substring(6, 10))) {
+            System.out.println("> Objeto " + titulo + ": Año " + fecha.substring(6, 10) + " Objeto " + o.titulo + ": Año " + o.fecha.substring(6, 10));
+            if (Integer.parseInt(fecha.substring(3, 5)) < Integer.parseInt(o.fecha.substring(3, 5))) {
+                System.out.println("< Objeto " + titulo + ": Mes " + fecha.substring(3, 5) + " Objeto " + o.titulo + ": Mes " + o.fecha.substring(3, 5));
+                if (Integer.parseInt(fecha.substring(0, 2)) < Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("< Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
                     return -1;
+                }
+                if (Integer.parseInt(fecha.substring(0, 2)) > Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("> Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
+                    return -1;
+                }
+            }
+            if (Integer.parseInt(fecha.substring(3, 5)) > Integer.parseInt(o.fecha.substring(3, 5))) {
+                System.out.println("> Objeto " + titulo + ": Mes " + fecha.substring(3, 5) + " Objeto " + o.titulo + ": Mes " + o.fecha.substring(3, 5));
+                if (Integer.parseInt(fecha.substring(0, 2)) < Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("< Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
+                    return -1;
+                }
+                if (Integer.parseInt(fecha.substring(0, 2)) > Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("> Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
+                    return -1;
+                }
+            }
+        }
+        else{
+            System.out.println("< Objeto " + titulo + ": Año " + fecha.substring(6, 10) + " Objeto " + o.titulo + ": Año " + o.fecha.substring(6, 10));
+            if (Integer.parseInt(fecha.substring(3, 5)) < Integer.parseInt(o.fecha.substring(3, 5))) {
+                System.out.println("< Objeto " + titulo + ": Mes " + fecha.substring(3, 5) + " Objeto " + o.titulo + ": Mes " + o.fecha.substring(3, 5));
+                if (Integer.parseInt(fecha.substring(0, 2)) < Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("< Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
+                    return 1;
+                }
+                if (Integer.parseInt(fecha.substring(0, 2)) > Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("> Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
+                    return -1;
+                }
+            }
+            if (Integer.parseInt(fecha.substring(3, 5)) > Integer.parseInt(o.fecha.substring(3, 5))) {
+                System.out.println("> Objeto " + titulo + ": Mes " + fecha.substring(3, 5) + " Objeto " + o.titulo + ": Mes " + o.fecha.substring(3, 5));
+                if (Integer.parseInt(fecha.substring(0, 2)) < Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("< Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
+                    return -1;
+                }
+                if (Integer.parseInt(fecha.substring(0, 2)) > Integer.parseInt(o.fecha.substring(0, 2))) {
+                    System.out.println("> Objeto " + titulo + ": Día " + fecha.substring(0, 2) + " Objeto " + o.titulo + ": Día " + o.fecha.substring(0, 2));
+                    return 1;
                 }
             }
         }

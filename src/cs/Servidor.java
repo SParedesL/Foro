@@ -84,6 +84,7 @@ public class Servidor {
             }
             ObjectOutputStream oos= new ObjectOutputStream(new FileOutputStream(dir + "\\" + p.getTitulo()));
             oos.writeObject(p);
+            oos.flush();
             ois.close();
             oos.close();
         } catch (Exception e) {
@@ -137,6 +138,7 @@ public class Servidor {
             oos.writeObject(p);
             oos.flush();
             oos.close();
+            ois.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
