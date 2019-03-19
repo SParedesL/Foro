@@ -144,7 +144,8 @@ public class Servidor {
     
     public void enviarLista(){
         try {
-            ArrayList<Post> l = Post.generarLista(new File(".\\Posts\\"));
+            ArrayList<Post> l = new ArrayList<>();
+            Post.generarLista(new File(".\\Posts\\"), l);
             ObjectOutputStream oos = new ObjectOutputStream(cl.getOutputStream());
             oos.writeObject(l);
             oos.flush();

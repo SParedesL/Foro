@@ -35,10 +35,15 @@ public class Cliente {
     
     public static void main(String[] args) {
         Cliente c =  new Cliente();
-        String imagen = c.enviarArch("14-03-19");
-        c.nuevoPost("El sebas", "Ayuda", "14-03-19", imagen, "Que tranza?", "Viajes");
+        c.nuevoPost("El sebas", "Ayuda", "14-03-19", c.enviarArch("14-03-19"), "Que tranza?", "Viajes");
+        c.nuevoPost("Sebas", "Campeón del mundo", "13-02-78", c.enviarArch("13-02-78"), "México es campeon del mundo por primera vez en toda la historia, gol del chicharito", "Deportes");
+        c.nuevoPost("Sebas", "Formula 1", "20-05-18", c.enviarArch("20-05-18"), "Checo Perez, campeon de la formula 1 por primera vez y en MÉXICO!", "Deportes");
+        c.nuevoPost("Jafet", "EDC México", "25-02-19", c.enviarArch("25-02-19"), "Skrillex la rompe machin en el escenario y se rapa otra vez", "Musica");
+        for(Post pt : c.listaPost())
+            System.out.println(pt.getTitulo());
         Post p = c.pedirPost("Ayuda");
         System.out.println(p.getTitulo());
+        
     }
         
     public void nuevoPost(String creador, String titulo, String fecha, String foto, String contenido, String categoria){
@@ -130,12 +135,12 @@ public class Cliente {
         ArrayList<Post> alp = new ArrayList<>();
         try {
             cl = new Socket(host, pto);
-            br = new BufferedReader(new InputStreamReader(cl.getInputStream()));
             pw = new PrintWriter(new OutputStreamWriter(cl.getOutputStream()));
             pw.println("4");
             pw.flush();
             ObjectInputStream ois = new ObjectInputStream(cl.getInputStream());
             alp = (ArrayList<Post>)ois.readObject();
+            System.out.println(alp.size());
             ois.close();
         } catch (Exception e) {
             e.printStackTrace();

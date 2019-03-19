@@ -17,6 +17,7 @@ import java.util.ArrayList;
  */
 public class Post implements Serializable{
     private String creador, titulo, fecha, foto, contenido, categoria;
+    
 
     public Post(String creador, String titulo, String fecha, String foto, String contenido, String categoria) {
         this.creador = creador;
@@ -73,27 +74,27 @@ public class Post implements Serializable{
         return r;
     }
     
-    public static ArrayList<Post> generarLista(File file){
+    public static void generarLista(File file, ArrayList<Post> al){
         File[] list = file.listFiles();
-        ArrayList<Post> al = new ArrayList<>();
         if(list!=null){
             for (File fil : list)
             {
                 if (fil.isDirectory())
                 {
-                    generarLista(fil);
+                    generarLista(fil, al);
                 }
                 else
                 {
                     try {
                         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fil));
-                        al.add((Post)ois.readObject());
+                        Post p = (Post)ois.readObject();
+                        al.add(p);
+                        ois.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
-        return al;
     }
 }
