@@ -5,18 +5,28 @@
  */
 package metodos;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JList;
+
 
 /**
  *
  * @author sebas
  */
 public class Post implements Serializable, Comparable<Post>{
-    private String creador, titulo, fecha, foto, contenido, categoria;
+    public String creador, titulo, fecha, foto, contenido, categoria;
     
 
     public Post(String creador, String titulo, String fecha, String foto, String contenido, String categoria) {
@@ -96,6 +106,25 @@ public class Post implements Serializable, Comparable<Post>{
                 }
             }
         }
+    }
+    
+    public void posts(JList j, ArrayList<Post> posts){
+        DefaultListModel lm = new DefaultListModel();
+        lm.clear();
+        for (int i = 0; i < posts.size(); i++) {
+            lm.add(i, posts.get(i).titulo);
+            System.out.println(posts.get(i).titulo+"\n");
+        }
+        j.setModel(lm);
+    }
+    
+      public void showImg(String rute, JLabel label) throws IOException{
+        File f = new File(rute);
+        Image image = ImageIO.read(f);
+        ImageIcon icon = new ImageIcon(image);
+        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH));
+        label.setText(null);
+        label.setIcon(icono);
     }
     
     @Override

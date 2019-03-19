@@ -5,10 +5,9 @@
  */
 package interfaces;
 
+import cs.Cliente;
 import java.io.File;
-import java.util.HashSet;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,13 +22,18 @@ public class NuevoPost extends javax.swing.JFrame {
     String titulo;
     String categoria;
     String fecha;
-    String imagen;
+    String foto;
     String contenido;
-    HashSet<Post> estados;
+    String creador;
+    ArrayList<metodos.Post> estados;
+    Cliente c;
     
-    public NuevoPost(HashSet<Post> edos) {
+    public NuevoPost(ArrayList<metodos.Post> edos, Cliente c) {
         initComponents();
         estados = edos;
+        this.c = c;
+        this.creador = Inicio.jLabelUsuario.getText();
+        
     }
 
     /**
@@ -56,7 +60,7 @@ public class NuevoPost extends javax.swing.JFrame {
         jButtonPublicar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Nuevo Post.");
@@ -96,6 +100,8 @@ public class NuevoPost extends javax.swing.JFrame {
                 jButtonImagenActionPerformed(evt);
             }
         });
+
+        jTextFieldContenido.setBorder(new javax.swing.border.MatteBorder(null));
 
         jButtonPublicar.setText("Publicar");
         jButtonPublicar.addActionListener(new java.awt.event.ActionListener() {
@@ -177,14 +183,17 @@ public class NuevoPost extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jButtonImagen))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextFieldContenido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldContenido)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 16, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(32, 32, 32)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonPublicar)
                     .addComponent(jButtonCancelar))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -204,15 +213,8 @@ public class NuevoPost extends javax.swing.JFrame {
 
     private void jButtonImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImagenActionPerformed
         // TODO add your handling code here:
-        JFileChooser jf = new JFileChooser();
-            int r = jf.showOpenDialog(this);
-            if(r == JFileChooser.APPROVE_OPTION){
-                f = jf.getSelectedFile();
-                String nombre = f.getName();
-                long tam = f.length();
-                imagen = f.getAbsolutePath();
-            }
-        
+        fecha = jTextFecha.getText();
+        foto = c.enviarArch(fecha);
     }//GEN-LAST:event_jButtonImagenActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -224,12 +226,9 @@ public class NuevoPost extends javax.swing.JFrame {
         // TODO add your handling code here:
         titulo = jTextTitulo.getText();
         categoria = (String) jComboBoxCategoria.getSelectedItem();
-        fecha = jTextFecha.getText();
         contenido = jTextFieldContenido.getText();
-        System.out.println("Titulo: "+titulo+"\n Categoria:"+categoria+"\n Fecha: "+fecha+"\n Imagen: "+imagen+"\n Contenido: "+contenido); 
-        Post e = new Post(titulo, categoria, fecha, imagen, contenido, titulo);
-        estados.add(e);
-        e.posts(Inicio.jList, estados);
+        System.out.println("Titulo: "+titulo+"\n Categoria:"+categoria+"\n Fecha: "+fecha+"\n Imagen: "+foto+"\n Contenido: "+contenido); 
+        c.nuevoPost(creador, titulo, fecha, foto, contenido, categoria);
         this.setVisible(false);
     }//GEN-LAST:event_jButtonPublicarActionPerformed
 

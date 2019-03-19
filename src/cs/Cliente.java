@@ -17,9 +17,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import metodos.Post;
@@ -68,7 +65,7 @@ public class Cliente {
     }
     
     public String enviarArch(String fecha){
-        String nombre = null;
+        String path = null;
         try{
             File f;
             cl = new Socket(host, pto);
@@ -80,9 +77,9 @@ public class Cliente {
             int r = jf.showOpenDialog(null);
             if(r == JFileChooser.APPROVE_OPTION){
                 f = jf.getSelectedFile();
-                nombre = f.getName();
+                String nombre = f.getName();
                 long tam = f.length();
-                String path = f.getAbsolutePath();
+                path = f.getAbsolutePath();
                 System.out.println("Se enviara el archivo " + path + " con " + tam + "bytes");
                 DataOutputStream dos = new DataOutputStream(cl.getOutputStream());
                 DataInputStream dis = new DataInputStream(new FileInputStream(path));
@@ -108,12 +105,11 @@ public class Cliente {
                 dos.close();
                 dis.close();
         }
-        
         }catch(Exception e){
             e.printStackTrace();
-            nombre = "fallo";
+            path = "fallo";
         }
-        return nombre;
+        return path;
     }
     
     public Post pedirPost(String nombrePost){
