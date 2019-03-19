@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,13 +24,17 @@ public class Inicio extends javax.swing.JFrame {
     Cliente c =  new Cliente();
     ArrayList<metodos.Post> alp;
     metodos.Post aux = new metodos.Post();
-    
+    String user;
     
     public Inicio() {
         initComponents();
         this.setLocationRelativeTo(null);
-       // c.nuevoPost("El Sebas", "Ayuda", "14-03-2019", c.enviarArch("14-03-2019"), "Que tranza?", "Viajes");
-       // c.nuevoPost("El Jaf", "Campeón del mundo", "13-02-1978", c.enviarArch("13-02-1978"), "México es campeon del mundo por primera vez en toda la historia, gol del chicharito", "Deportes");
+        while (user == null){
+            user = JOptionPane.showInputDialog(this, "Ingrese su nombre de usuario");
+        }
+        jLabelUsuario.setText("@" + user);
+        //c.nuevoPost("El Sebas", "Ayuda", "14-03-2019", c.enviarArch("14-03-2019"), "Que tranza?", "Viajes");
+        //c.nuevoPost("El Jaf", "Campeón del mundo", "13-02-1978", c.enviarArch("13-02-1978"), "México es campeon del mundo por primera vez en toda la historia, gol del chicharito", "Deportes");
         alp = c.listaPost();
         aux.posts(Inicio.jList, alp);
         
@@ -71,6 +76,11 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jButtonCerrarSesion.setText("Cerrar Sesión");
+        jButtonCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCerrarSesionActionPerformed(evt);
+            }
+        });
 
         jLabelUsuario.setText("@Sebas");
 
@@ -194,6 +204,14 @@ public class Inicio extends javax.swing.JFrame {
         }
         sp.setVisible(true);
     }//GEN-LAST:event_jButtonVerActionPerformed
+
+    private void jButtonCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrarSesionActionPerformed
+        user = null;
+        while (user == null){
+            user = JOptionPane.showInputDialog(this, "Ingrese su nombre de usuario");
+        }
+        jLabelUsuario.setText("@" + user);
+    }//GEN-LAST:event_jButtonCerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments

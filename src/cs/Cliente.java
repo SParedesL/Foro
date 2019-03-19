@@ -32,20 +32,20 @@ public class Cliente {
     BufferedReader br;
     PrintWriter pw;
     
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Cliente c =  new Cliente();
         /*c.nuevoPost("El sebas", "Ayuda", "14-03-2019", c.enviarArch("14-03-2019"), "Que tranza?", "Viajes");
         c.nuevoPost("Sebas", "Campeón del mundo", "13-02-1978", c.enviarArch("13-02-1978"), "México es campeon del mundo por primera vez en toda la historia, gol del chicharito", "Deportes");
         c.nuevoPost("Sebas", "Formula 1", "20-05-2018", c.enviarArch("20-05-2018"), "Checo Perez, campeon de la formula 1 por primera vez y en MÉXICO!", "Deportes");
         c.nuevoPost("Jafet", "EDC México", "25-02-2019", c.enviarArch("25-02-2019"), "Skrillex la rompe machin en el escenario y se rapa otra vez", "Musica");
-        c.nuevoPost("El sebas", "Respuesta", "10-01-2019", c.enviarArch("14-03-2019"), "Que tranza?", "Viajes");*/
+        c.nuevoPost("El sebas", "Respuesta", "10-01-2019", c.enviarArch("14-03-2019"), "Que tranza?", "Viajes");
         ArrayList<Post> alp = c.listaPost();
         alp.sort((o1, o2) -> o1.compareTo(o2));
         for(Post pt : alp)
             System.out.println(pt.getTitulo());
         Post p = c.pedirPost("Ayuda");
         
-    }
+    }*/
         
     public void nuevoPost(String creador, String titulo, String fecha, String foto, String contenido, String categoria){
         try {

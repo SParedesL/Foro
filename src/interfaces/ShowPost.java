@@ -23,6 +23,7 @@ public class ShowPost extends javax.swing.JFrame {
     
     public ShowPost(metodos.Post post) throws IOException {
         initComponents();
+        this.setLocationRelativeTo(null);
         jLabelTitulo.setText(post.titulo);
         jLabelAutor.setText(post.creador);
         jLabelCategoria.setText(post.categoria);

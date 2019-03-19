@@ -30,10 +30,10 @@ public class NuevoPost extends javax.swing.JFrame {
     
     public NuevoPost(ArrayList<metodos.Post> edos, Cliente c) {
         initComponents();
+        this.setLocationRelativeTo(null);
         estados = edos;
         this.c = c;
         this.creador = Inicio.jLabelUsuario.getText();
-        
     }
 
     /**

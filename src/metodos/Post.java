@@ -66,17 +66,22 @@ public class Post implements Serializable, Comparable<Post>{
     }
     
     public static File buscarPost(String name, File file){
+        System.out.println("Estoy buscando " + name);
         File[] list = file.listFiles();
+        System.out.println(file.getAbsolutePath());
         File r = null;
         if(list!=null){
             for (File fil : list)
             {
+                if(r != null)
+                    break;
                 if (fil.isDirectory())
                 {
                     r = buscarPost(name, fil);
                 }
                 else if (name.equalsIgnoreCase(fil.getName()))
                 {
+                    System.out.println("Si lo encontre!!!");
                     return fil;
                 }
             }
