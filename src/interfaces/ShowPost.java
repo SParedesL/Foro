@@ -5,6 +5,9 @@
  */
 package interfaces;
 
+import java.io.IOException;
+
+
 /**
  *
  * @author jafet
@@ -13,15 +16,20 @@ public class ShowPost extends javax.swing.JFrame {
 
     /**
      * Creates new form Post
+     * @param post
      */
-    public ShowPost(Post post) {
+    
+    metodos.Post aux = new metodos.Post();
+    
+    public ShowPost(metodos.Post post) throws IOException {
         initComponents();
         jLabelTitulo.setText(post.titulo);
-        jLabelAutor.setText(post.autor);
+        jLabelAutor.setText(post.creador);
         jLabelCategoria.setText(post.categoria);
         jLabelFecha.setText(post.fecha);
-        jLabelImagen.setText(post.imagen);
         jTextAreaContenido.setText(post.contenido);
+        aux.showImg(post.foto, jLabelImagen);
+        
     }
 
     private ShowPost() {

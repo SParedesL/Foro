@@ -5,7 +5,11 @@
  */
 package interfaces;
 
-import java.util.HashSet;
+import cs.Cliente;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,17 +20,22 @@ public class Inicio extends javax.swing.JFrame {
     /**
      * Creates new form Inicio
      */
+    Cliente c =  new Cliente();
+    ArrayList<metodos.Post> alp;
+    metodos.Post aux = new metodos.Post();
     
-    Post aux = new Post();
-    HashSet<Post> edos = aux.llenarPost();
     
     public Inicio() {
         initComponents();
-        aux.posts(this.jList, edos);
+        this.setLocationRelativeTo(null);
+       // c.nuevoPost("El Sebas", "Ayuda", "14-03-2019", c.enviarArch("14-03-2019"), "Que tranza?", "Viajes");
+       // c.nuevoPost("El Jaf", "Campeón del mundo", "13-02-1978", c.enviarArch("13-02-1978"), "México es campeon del mundo por primera vez en toda la historia, gol del chicharito", "Deportes");
+        alp = c.listaPost();
+        aux.posts(Inicio.jList, alp);
+        
     }
     
     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -152,7 +161,8 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
         // TODO add your handling code here:
-        aux.posts(this.jList, edos);
+        alp = c.listaPost();
+        aux.posts(Inicio.jList, alp);
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
@@ -161,7 +171,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jButtonNuevoPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoPostActionPerformed
         // TODO add your handling code here:
-        NuevoPost nvo = new NuevoPost(edos);
+        NuevoPost nvo = new NuevoPost(alp,c);
         nvo.setVisible(true);
     }//GEN-LAST:event_jButtonNuevoPostActionPerformed
 
@@ -175,8 +185,14 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nombre = jList.getSelectedValue();
         System.out.println("Selecciono: " + nombre);
-        ShowPost p = new ShowPost(aux.mostrar(nombre, edos));
-        p.setVisible(true);
+        metodos.Post p = c.pedirPost(nombre);
+        ShowPost sp = null;
+        try {
+            sp = new ShowPost(p);
+        } catch (IOException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        sp.setVisible(true);
     }//GEN-LAST:event_jButtonVerActionPerformed
 
     /**
@@ -190,7 +206,7 @@ public class Inicio extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -222,7 +238,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton jButtonNuevoPost;
     private javax.swing.JButton jButtonVer;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabelUsuario;
+    public static javax.swing.JLabel jLabelUsuario;
     public static javax.swing.JList<String> jList;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
