@@ -17,6 +17,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -39,7 +41,9 @@ public class Cliente {
         c.nuevoPost("Sebas", "Campeón del mundo", "13-02-78", c.enviarArch("13-02-78"), "México es campeon del mundo por primera vez en toda la historia, gol del chicharito", "Deportes");
         c.nuevoPost("Sebas", "Formula 1", "20-05-18", c.enviarArch("20-05-18"), "Checo Perez, campeon de la formula 1 por primera vez y en MÉXICO!", "Deportes");
         c.nuevoPost("Jafet", "EDC México", "25-02-19", c.enviarArch("25-02-19"), "Skrillex la rompe machin en el escenario y se rapa otra vez", "Musica");
-        for(Post pt : c.listaPost())
+        ArrayList<Post> alp = c.listaPost();
+        //Collections.sort(alp);
+        for(Post pt : alp)
             System.out.println(pt.getTitulo());
         Post p = c.pedirPost("Ayuda");
         System.out.println(p.getTitulo());

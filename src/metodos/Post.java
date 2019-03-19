@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author sebas
  */
-public class Post implements Serializable{
+public class Post implements Serializable, Comparable<Post>{
     private String creador, titulo, fecha, foto, contenido, categoria;
     
 
@@ -96,5 +96,24 @@ public class Post implements Serializable{
                 }
             }
         }
+    }
+    
+    @Override
+    public int compareTo(Post o) {
+        if (Integer.parseInt(fecha.substring(0, 1)) < Integer.parseInt(o.fecha.substring(0, 1))) {
+            if (Integer.parseInt(fecha.substring(3, 4)) < Integer.parseInt(o.fecha.substring(3, 4))) {
+                if (Integer.parseInt(fecha.substring(6, 7)) < Integer.parseInt(o.fecha.substring(6, 7))) {
+                    return -1;
+                }
+            }
+        }
+        if (Integer.parseInt(fecha.substring(0, 1)) > Integer.parseInt(o.fecha.substring(0, 1))) {
+            if (Integer.parseInt(fecha.substring(3, 4)) > Integer.parseInt(o.fecha.substring(3, 4))) {
+                if (Integer.parseInt(fecha.substring(6, 7)) > Integer.parseInt(o.fecha.substring(6, 7))) {
+                    return -1;
+                }
+            }
+        }
+        return 0;
     }
 }
