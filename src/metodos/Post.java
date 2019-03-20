@@ -12,13 +12,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 
 /**
@@ -26,17 +27,20 @@ import javax.swing.JList;
  * @author sebas
  */
 public class Post implements Serializable, Comparable<Post>{
-    public String creador, titulo, fecha, foto, contenido, categoria;
+    public String creador, titulo, fecha, foto, contenido, categoria, comment;
     
 
-    public Post(String creador, String titulo, String fecha, String foto, String contenido, String categoria) {
+    public Post(String creador, String titulo, String fecha, String foto, String contenido, String categoria, String comment) {
         this.creador = creador;
         this.titulo = titulo;
         this.fecha = fecha;
         this.foto = foto;
         this.contenido = contenido;
         this.categoria = categoria;
+        this.comment = comment;
     }
+    
+    
 
     public Post() {
     }
@@ -211,4 +215,17 @@ public class Post implements Serializable, Comparable<Post>{
         }
         return 0;
     }
+    
+    public void coments(JScrollPane j, ArrayList<Post> comentarios){
+        for (Post comentario : comentarios) {
+            JTextArea cont = new JTextArea();
+            JLabel aut = new JLabel();
+            aut.setText(comentario.creador);
+            cont.setText(comentario.contenido);
+            j.setViewportView(aut);
+            j.setViewportView(cont);
+            
+        }
+    }
+    
 }

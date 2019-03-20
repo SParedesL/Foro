@@ -72,9 +72,15 @@ public class Servidor {
     }
     
     public void nuevoPost(){ //Opcion 1
-        String dir = ".\\Posts\\";
+        String dir;
         Post p = new Post();
         try {
+            String post = br.readLine();
+            if(post.equals("-1"))
+                dir = ".\\Posts\\";
+            else
+                dir = ".\\Coments\\"+post;
+            
             ObjectInputStream ois = new ObjectInputStream(cl.getInputStream());
             p = (Post)ois.readObject();
             dir = dir + p.getCategoria();
@@ -147,8 +153,13 @@ public class Servidor {
     
     public void enviarLista(){
         try {
+            String post = br.readLine();
             ArrayList<Post> l = new ArrayList<>();
-            Post.generarLista(new File(".\\Posts\\"), l);
+            if(post.equals("-1"))
+                Post.generarLista(new File(".\\Posts\\"), l);
+            else
+                Post.generarLista(new File(".\\Coments\\"+post), l);
+            
             ObjectOutputStream oos = new ObjectOutputStream(cl.getOutputStream());
             oos.writeObject(l);
             oos.flush();

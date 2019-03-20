@@ -47,14 +47,16 @@ public class Cliente {
         
     }*/
         
-    public void nuevoPost(String creador, String titulo, String fecha, String foto, String contenido, String categoria){
+    public void nuevoPost(String creador, String titulo, String fecha, String foto, String contenido, String categoria, String post){
         try {
             cl = new Socket(host, pto);
             br = new BufferedReader(new InputStreamReader(cl.getInputStream()));
             pw = new PrintWriter(new OutputStreamWriter(cl.getOutputStream()));
             pw.println("1");
             pw.flush();
-            Post p =  new Post(creador, titulo, fecha, foto, contenido, categoria);
+            pw.println(post);
+            pw.flush();
+            Post p =  new Post(creador, titulo, fecha, foto, contenido, categoria, post);
             ObjectOutputStream oos = new ObjectOutputStream(cl.getOutputStream());
             System.out.println("Estoy creando el oos");
             oos.writeObject(p);
@@ -138,12 +140,14 @@ public class Cliente {
         return p;
     }
     
-    public ArrayList<Post> listaPost(){
+    public ArrayList<Post> listaPost(String comment){
         ArrayList<Post> alp = new ArrayList<>();
         try {
             cl = new Socket(host, pto);
             pw = new PrintWriter(new OutputStreamWriter(cl.getOutputStream()));
             pw.println("4");
+            pw.flush();
+            pw.println(comment);
             pw.flush();
             ObjectInputStream ois = new ObjectInputStream(cl.getInputStream());
             alp = (ArrayList<Post>)ois.readObject();
