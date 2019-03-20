@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -186,13 +187,21 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonNuevoPostActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         String busqueda = (String) jTextFieldBuscar.getText();
+        DefaultListModel lm = new DefaultListModel();
+        lm.clear();
         System.out.println("BUSCASTE: "+busqueda);
+        for (metodos.Post post : alp) {
+            if(post.titulo.equalsIgnoreCase(busqueda)){
+                lm.addElement(post.titulo);
+                jList.setModel(lm);
+            }
+        }
+        if(lm.isEmpty())
+            JOptionPane.showMessageDialog(this, "No existe un post con se nombre.");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerActionPerformed
-        // TODO add your handling code here:
         String nombre = jList.getSelectedValue();
         System.out.println("Selecciono: " + nombre);
         metodos.Post p = c.pedirPost(nombre);

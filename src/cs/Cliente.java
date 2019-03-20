@@ -56,9 +56,12 @@ public class Cliente {
             pw.flush();
             Post p =  new Post(creador, titulo, fecha, foto, contenido, categoria);
             ObjectOutputStream oos = new ObjectOutputStream(cl.getOutputStream());
+            System.out.println("Estoy creando el oos");
             oos.writeObject(p);
             oos.flush();
             oos.close();
+            pw.close();
+            br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,6 +107,8 @@ public class Cliente {
                 JOptionPane.showMessageDialog(null, "El archivo: "+nombre+" se subió correctamente.");
                 dos.close();
                 dis.close();
+                pw.close();
+                br.close();
         }
         }catch(Exception e){
             e.printStackTrace();
@@ -125,6 +130,8 @@ public class Cliente {
             ObjectInputStream ois = new ObjectInputStream(cl.getInputStream());
             p = (Post)ois.readObject();
             ois.close();
+            pw.close();
+            br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,6 +148,7 @@ public class Cliente {
             ObjectInputStream ois = new ObjectInputStream(cl.getInputStream());
             alp = (ArrayList<Post>)ois.readObject();
             ois.close();
+            pw.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
