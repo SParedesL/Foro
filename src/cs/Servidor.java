@@ -38,7 +38,7 @@ public class Servidor {
     BufferedReader br;
     String opc;
     PrintWriter pw;
-    
+    ObjectInputStream ois;
     public static void main(String[] args) {
         Servidor sx = new Servidor();
     }
@@ -51,8 +51,8 @@ public class Servidor {
             for(;;){
                 cl = s.accept();
                 System.out.println("Cliente conectado desde" + cl.getInetAddress() + ": " + cl.getPort());
-                br = new BufferedReader(new InputStreamReader(cl.getInputStream()));
-                opc = br.readLine();
+                ois = new ObjectInputStream(cl.getInputStream());
+                opc = ois.readUTF();
                 System.out.println(opc);
                 if(opc.equals("1"))
                     nuevoPost();
@@ -75,15 +75,13 @@ public class Servidor {
         String dir;
         Post p = new Post();
         try {
-            String post = br.readLine();
+            String post = ois.readUTF();
+            System.out.println(post);
+            p = (Post)ois.readObject();
             if(post.equals("-1"))
-                dir = ".\\Posts\\";
+                dir = ".\\Posts\\" + p.getCategoria();
             else
                 dir = ".\\Coments\\"+post;
-            
-            ObjectInputStream ois = new ObjectInputStream(cl.getInputStream());
-            p = (Post)ois.readObject();
-            dir = dir + p.getCategoria();
             File f = new File(dir);
             System.out.println(f.getAbsolutePath());
             if (!(f.exists() && f.isDirectory())) {
@@ -102,11 +100,9 @@ public class Servidor {
     public void subirImagen(){ //Opcion 2
         String dir = ".\\Imagenes\\";
         try {
-            
-            DataInputStream dis = new  DataInputStream(cl.getInputStream());
-            String fecha = dis.readUTF();
-            String nombre = dis.readUTF();
-            long tam = dis.readLong();
+            String fecha = ois.readUTF();
+            String nombre = ois.readUTF();
+            long tam = ois.readLong();
             long recibidos=0;
             int n=0;
             String path = dir + fecha + "\\";
@@ -120,14 +116,14 @@ public class Servidor {
             byte[] b = new byte[1024];
 
             while(recibidos < tam) {
-                 n = dis.read(b);
+                 n = ois.read(b);
                  dos.write(b, 0, n);
                  dos.flush();
                  recibidos += n;
             }
             System.out.println("Archivo " + nombre + " recibido");
             System.out.println("Esperando cliente...");
-            dis.close();
+            ois.close();
             dos.close();
             
         } catch (Exception e) {
@@ -137,15 +133,16 @@ public class Servidor {
     
     public void enviarPost(){
         try {
-            String name = br.readLine();
+            String name = ois.readUTF();
             File f = Post.buscarPost(name, new File(".\\Posts\\"));
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
-            Post p = (Post)ois.readObject();
+            ObjectInputStream oisf = new ObjectInputStream(new FileInputStream(f));
+            Post p = (Post)oisf.readObject();
             ObjectOutputStream oos = new ObjectOutputStream(cl.getOutputStream());
             oos.writeObject(p);
             oos.flush();
             oos.close();
             ois.close();
+            oisf.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,7 +150,7 @@ public class Servidor {
     
     public void enviarLista(){
         try {
-            String post = br.readLine();
+            String post = ois.readUTF();
             ArrayList<Post> l = new ArrayList<>();
             if(post.equals("-1"))
                 Post.generarLista(new File(".\\Posts\\"), l);
@@ -164,6 +161,7 @@ public class Servidor {
             oos.writeObject(l);
             oos.flush();
             oos.close();
+            ois.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

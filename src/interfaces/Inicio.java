@@ -35,7 +35,7 @@ public class Inicio extends javax.swing.JFrame {
         }
         jLabelUsuario.setText("@" + user);
         //c.nuevoPost("El Sebas", "Ayuda", "14-03-2019", c.enviarArch("14-03-2019"), "Que tranza?", "Viajes", "-1");
-        c.nuevoPost("El Jaf", "Campeón del mundo", "13-02-1978", c.enviarArch("13-02-1978"), "México es campeon del mundo por primera vez en toda la historia, gol del chicharito", "Deportes", "-1");
+        //c.nuevoPost("El Jaf", "Campeón del mundo", "13-02-1978", "", "Este es un coment chido", "Deportes", "Campeón del mundo");
         alp = c.listaPost("-1");
         aux.posts(Inicio.jList, alp);
         

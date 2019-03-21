@@ -31,7 +31,8 @@ public class Cliente {
     Socket cl;
     BufferedReader br;
     PrintWriter pw;
-    
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
     /*public static void main(String[] args) {
         Cliente c =  new Cliente();
         /*c.nuevoPost("El sebas", "Ayuda", "14-03-2019", c.enviarArch("14-03-2019"), "Que tranza?", "Viajes");
@@ -50,20 +51,15 @@ public class Cliente {
     public void nuevoPost(String creador, String titulo, String fecha, String foto, String contenido, String categoria, String post){
         try {
             cl = new Socket(host, pto);
-            br = new BufferedReader(new InputStreamReader(cl.getInputStream()));
-            pw = new PrintWriter(new OutputStreamWriter(cl.getOutputStream()));
-            pw.println("1");
-            pw.flush();
-            pw.println(post);
-            pw.flush();
+            oos = new ObjectOutputStream(cl.getOutputStream());
+            oos.writeUTF("1");
+            oos.flush();
+            oos.writeUTF(post);
+            oos.flush();
             Post p =  new Post(creador, titulo, fecha, foto, contenido, categoria, post);
-            ObjectOutputStream oos = new ObjectOutputStream(cl.getOutputStream());
-            System.out.println("Estoy creando el oos");
             oos.writeObject(p);
             oos.flush();
             oos.close();
-            pw.close();
-            br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,10 +70,9 @@ public class Cliente {
         try{
             File f;
             cl = new Socket(host, pto);
-            br = new BufferedReader(new InputStreamReader(cl.getInputStream()));
-            pw = new PrintWriter(new OutputStreamWriter(cl.getOutputStream()));
-            pw.println("2");
-            pw.flush();
+            oos = new ObjectOutputStream(cl.getOutputStream());
+            oos.writeUTF("2");
+            oos.flush();
             JFileChooser jf = new JFileChooser();
             int r = jf.showOpenDialog(null);
             if(r == JFileChooser.APPROVE_OPTION){
@@ -86,31 +81,28 @@ public class Cliente {
                 long tam = f.length();
                 path = f.getAbsolutePath();
                 System.out.println("Se enviara el archivo " + path + " con " + tam + "bytes");
-                DataOutputStream dos = new DataOutputStream(cl.getOutputStream());
                 DataInputStream dis = new DataInputStream(new FileInputStream(path));
-                dos.writeUTF(fecha);
-                dos.flush();
-                dos.writeUTF(nombre);
-                dos.flush();
-                dos.writeLong(tam);
-                dos.flush();
+                oos.writeUTF(fecha);
+                oos.flush();
+                oos.writeUTF(nombre);
+                oos.flush();
+                oos.writeLong(tam);
+                oos.flush();
                 long enviados = 0;
                 int n = 0, porciento = 0;
                 byte[] b = new byte[1024];
                 while(enviados < tam){
                     n = dis.read(b);
-                    dos.write(b, 0, n);
-                    dos.flush();
+                    oos.write(b, 0, n);
+                    oos.flush();
                     enviados+=n;
                     porciento = (int)(enviados*100/tam);
                     System.out.print("\r Enviando el " + porciento + "%");
                 }
                 System.out.println("Esperando Mensaje");
                 JOptionPane.showMessageDialog(null, "El archivo: "+nombre+" se subió correctamente.");
-                dos.close();
                 dis.close();
-                pw.close();
-                br.close();
+                oos.close();
         }
         }catch(Exception e){
             e.printStackTrace();
@@ -123,17 +115,15 @@ public class Cliente {
         Post p = new Post();
         try {
             cl = new Socket(host, pto);
-            br = new BufferedReader(new InputStreamReader(cl.getInputStream()));
-            pw = new PrintWriter(new OutputStreamWriter(cl.getOutputStream()));
-            pw.println("3");
-            pw.flush();
-            pw.println(nombrePost);
-            pw.flush();
-            ObjectInputStream ois = new ObjectInputStream(cl.getInputStream());
+            oos = new ObjectOutputStream(cl.getOutputStream());
+            oos.writeUTF("3");
+            oos.flush();
+            oos.writeUTF(nombrePost);
+            oos.flush();
+            ois = new ObjectInputStream(cl.getInputStream());
             p = (Post)ois.readObject();
             ois.close();
-            pw.close();
-            br.close();
+            oos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -144,15 +134,15 @@ public class Cliente {
         ArrayList<Post> alp = new ArrayList<>();
         try {
             cl = new Socket(host, pto);
-            pw = new PrintWriter(new OutputStreamWriter(cl.getOutputStream()));
-            pw.println("4");
-            pw.flush();
-            pw.println(comment);
-            pw.flush();
-            ObjectInputStream ois = new ObjectInputStream(cl.getInputStream());
+            oos = new ObjectOutputStream(cl.getOutputStream());
+            oos.writeUTF("4");
+            oos.flush();
+            oos.writeUTF(comment);
+            oos.flush();
+            ois = new ObjectInputStream(cl.getInputStream());
             alp = (ArrayList<Post>)ois.readObject();
             ois.close();
-            pw.close();
+            oos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
