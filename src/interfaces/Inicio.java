@@ -6,12 +6,16 @@
 package interfaces;
 
 import cs.Cliente;
+import java.awt.LayoutManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -34,8 +38,9 @@ public class Inicio extends javax.swing.JFrame {
             user = JOptionPane.showInputDialog(this, "Ingrese su nombre de usuario");
         }
         jLabelUsuario.setText("@" + user);
-        //c.nuevoPost("El Sebas", "Ayuda", "14-03-2019", c.enviarArch("14-03-2019"), "Que tranza?", "Viajes", "-1");
-        //c.nuevoPost("El Jaf", "Campeón del mundo", "13-02-1978", "", "Este es un coment chido", "Deportes", "Campeón del mundo");
+        c.nuevoPost("@Sebas", "Ayuda", "14-03-2019", "No", "Que buen viaje carnal", "Viajes", "Ayuda");
+        c.nuevoPost("@Jaf", "Campeón del mundo", "13-02-1978", "No", "Arriba", "Deportes", "Campeón del mundo");
+        c.nuevoPost("@Sebas", "Campeón del mundo", "13-02-1978", "No", "Simón", "Deportes", "Campeón del mundo");
         alp = c.listaPost("-1");
         aux.posts(Inicio.jList, alp);
         
@@ -62,7 +67,11 @@ public class Inicio extends javax.swing.JFrame {
         jButtonVer = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList = new javax.swing.JList<>();
-        jScrollPanelComentarios = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanelComents = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextAreaComment = new javax.swing.JTextArea();
+        jButtonComentar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -113,7 +122,26 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        jList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jList);
+
+        jPanelComents.setLayout(new java.awt.GridLayout(0, 1));
+        jScrollPane2.setViewportView(jPanelComents);
+
+        jTextAreaComment.setColumns(20);
+        jTextAreaComment.setRows(5);
+        jScrollPane3.setViewportView(jTextAreaComment);
+
+        jButtonComentar.setText("Comentar");
+        jButtonComentar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonComentarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,12 +167,14 @@ public class Inicio extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonNuevoPost)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextFieldBuscar)
+                        .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPanelComentarios, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonComentar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jSeparator1)
         );
@@ -161,6 +191,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,8 +199,11 @@ public class Inicio extends javax.swing.JFrame {
                             .addComponent(jButtonNuevoPost)
                             .addComponent(jButtonVer))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPanelComentarios))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jButtonComentar, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -228,6 +262,34 @@ public class Inicio extends javax.swing.JFrame {
         jLabelUsuario.setText("@" + user);
     }//GEN-LAST:event_jButtonCerrarSesionActionPerformed
 
+    private void jListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMouseClicked
+        // TODO add your handling code here:
+        jPanelComents.removeAll();
+        ArrayList<metodos.Post> comments;
+        String nombre = jList.getSelectedValue();
+        comments = c.listaPost(nombre);
+        if(comments.isEmpty()){
+            JTextField conte = new JTextField("No existen comentarios aún..");
+            jPanelComents.add(conte);
+            jPanelComents.updateUI();
+        }        
+        for (metodos.Post post : comments) {
+            JTextField conte = new JTextField(post.contenido);
+            JLabel aut = new JLabel(post.creador); 
+            jPanelComents.add(aut);
+            jPanelComents.add(conte);
+            jPanelComents.updateUI();
+        }
+    }//GEN-LAST:event_jListMouseClicked
+
+    private void jButtonComentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComentarActionPerformed
+        // TODO add your handling code here:
+        String nombre = jList.getSelectedValue();
+        metodos.Post a = c.pedirPost(nombre);
+        c.nuevoPost(user, nombre, a.fecha, "", jTextAreaComment.getText(), a.categoria, nombre);
+        jTextAreaComment.setText("");
+    }//GEN-LAST:event_jButtonComentarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -268,14 +330,18 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonActualizar;
     private javax.swing.JButton jButtonCerrarSesion;
+    private javax.swing.JButton jButtonComentar;
     private javax.swing.JButton jButtonNuevoPost;
     private javax.swing.JButton jButtonVer;
     private javax.swing.JLabel jLabel1;
     public static javax.swing.JLabel jLabelUsuario;
     public static javax.swing.JList<String> jList;
+    private javax.swing.JPanel jPanelComents;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPanelComentarios;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextArea jTextAreaComment;
     private javax.swing.JTextField jTextFieldBuscar;
     // End of variables declaration//GEN-END:variables
 }

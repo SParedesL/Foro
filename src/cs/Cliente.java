@@ -54,7 +54,7 @@ public class Cliente {
             oos = new ObjectOutputStream(cl.getOutputStream());
             oos.writeUTF("1");
             oos.flush();
-            oos.writeUTF(post);
+            oos.writeUTF(titulo);
             oos.flush();
             Post p =  new Post(creador, titulo, fecha, foto, contenido, categoria, post);
             oos.writeObject(p);

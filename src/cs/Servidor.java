@@ -72,22 +72,34 @@ public class Servidor {
     }
     
     public void nuevoPost(){ //Opcion 1
-        String dir;
+        String dir, dirc;
         Post p = new Post();
         try {
+            ObjectOutputStream oos;
             String post = ois.readUTF();
             System.out.println(post);
             p = (Post)ois.readObject();
-            if(post.equals("-1"))
+            if(post.equals("-1")){
                 dir = ".\\Posts\\" + p.getCategoria();
-            else
+                dirc = dir + "\\" + p.getTitulo();
+            }
+            else{
                 dir = ".\\Coments\\"+post;
+                File f = new File(dir);
+                if(f == null)
+                    dirc = dir + "\\1";
+                else{
+                    ArrayList<Post> ap = new ArrayList<>();
+                    Post.generarLista(f, ap);
+                    dirc = dir + "\\" + (ap.size()+1);
+                }
+            }
             File f = new File(dir);
             System.out.println(f.getAbsolutePath());
             if (!(f.exists() && f.isDirectory())) {
                 f.mkdirs();
             }
-            ObjectOutputStream oos= new ObjectOutputStream(new FileOutputStream(dir + "\\" + p.getTitulo()));
+            oos = new ObjectOutputStream(new FileOutputStream(dirc));
             oos.writeObject(p);
             oos.flush();
             ois.close();
